@@ -9,7 +9,14 @@ output: html_document
 # load libraries
 library(readr)
 library(randomForest)
+library(ggplot2)
 
-setwd("../Data")
-read_csv("penguins.csv")
+# load in data
+my_gapminder <- read_csv("https://raw.githubusercontent.com/joiazhang/p3part2/master/Data/gapminder.csv")
+my_penguins <- read_csv("https://raw.githubusercontent.com/joiazhang/p3part2/master/Data/penguins.csv")
+
+# source the code
+source("https://raw.githubusercontent.com/joiazhang/p3part2/master/Code/my_rf_cv.R")
+
+ggsave("")
 ```
