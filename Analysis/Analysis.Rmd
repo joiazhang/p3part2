@@ -18,5 +18,40 @@ my_penguins <- read_csv("https://raw.githubusercontent.com/joiazhang/p3part2/mas
 # source the code
 source("https://raw.githubusercontent.com/joiazhang/p3part2/master/Code/my_rf_cv.R")
 
-ggsave("")
+set.seed(302)
+
+# list of body mass predictions based on function
+cv_mse_mat <- matrix(nrow = 30, ncol = 3)
+k <- c(2, 5, 10)
+for (i in 1:3) {
+  for (j in 1:30) {
+    cv_mse_mat[j, i] <- my_rf_cv(k[i])
+  }
+}
+
+cv_mse_df <- data.frame("k2" = cv_mse_mat[, 1], "k5" = cv_mse_mat[, 2], "k10" = cv_mse_mat[, 3])
+write_csv(cv_mse_df, "kresults.csv", path = "..Output/Results")
+
+# box plot for k = 2
+ggplot(data = cv_mse_df, aes(x = k2)) + geom_boxplot() + ggtitle("k = 2")
+ggsave("k2_boxplot.png", path = "../Output/Figures")
+
+# box plot for k = 5
+ggplot(data = cv_mse_df, aes(x = k5)) + geom_boxplot() + ggtitle("k = 5")
+ggsave("k5_boxplot.png", path = "../Output/Figures")
+
+# box plot for k = 10
+ggplot(data = cv_mse_df, aes(x = k10)) + geom_boxplot() + ggtitle("k = 10")
+ggsave("k10_boxplot.png", path = "../Output/Figures")
+
+# create table
+average_cv_mse <- colMeans(cv_mse_mat)
+sd_cv_mse <- c(sd(cv_mse_mat[, 1]), sd(cv_mse_mat[, 2]), sd(cv_mse_mat[, 3]))
+cv_mse_table <- rbind(average_cv_mse, sd_cv_mse)
+rownames(cv_mse_table) <- c("average cv mse", "sd")
+colnames(cv_mse_table) <- c("k = 2", "k = 5", "k = 10")
+cv_mse_table <- as.table(cv_mse_table)
+cv_mse_table
+saveRDS(cv_mse_table, "table.rds")
+
 ```
