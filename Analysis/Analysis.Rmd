@@ -1,0 +1,15 @@
+---
+title: "Analysis"
+author: "Joia Zhang"
+date: "3/19/2021"
+output: html_document
+---
+
+```{r}
+# load libraries
+library(readr)
+library(randomForest)
+
+setwd("../Data")
+read_csv("penguins.csv")
+```
